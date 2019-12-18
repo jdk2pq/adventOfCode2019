@@ -1,43 +1,8 @@
-import { input, testInputPart2 } from './input';
+import { input, testInput, testInput2, testInput3 } from './input';
+import { intcodeComputer } from '../shared/intcodeComputer';
 
-function printImage (input: string, width: number, height: number): void {
-    const layers = input.split('').reduce((layers: Array<Array<string>>, item: string, idx: number) => {
-        const layerIdx = Math.floor(idx / (width * height));
-        if (!layers[layerIdx]) {
-            layers[layerIdx] = [];
-        }
-        layers[layerIdx].push(item);
-        return layers;
-    }, []);
-    const flatFinalImage = [];
-    layers.forEach((layer) => {
-        layer.forEach((pixelValue, idx) => {
-            if (pixelValue !== '2' && !flatFinalImage[idx]) {
-                flatFinalImage[idx] = pixelValue;
-            }
-        })
-    });
-    const finalImage = flatFinalImage.reduce((layers: Array<Array<string>>, item: string, idx: number) => {
-        const layerIdx = Math.floor(idx / width);
-        if (!layers[layerIdx]) {
-            layers[layerIdx] = [];
-        }
-        layers[layerIdx].push(item);
-        return layers;
-    }, []);
-    finalImage.forEach((row) => {
-        let printRow = '';
-        row.forEach((pixelValue) => {
-            if (pixelValue === '0') {
-                printRow += '   ';
-            } else {
-                printRow += '|||';
-            }
-        });
-        console.log(printRow);
-    });
+async function run () {
+    // Challenge
+    console.log(await intcodeComputer(input, () => {return 2}));
 }
-// Test
-console.log(printImage(testInputPart2, 2, 2));
-// Challenge
-console.log(printImage(input, 25, 6));
+run();

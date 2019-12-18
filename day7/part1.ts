@@ -1,22 +1,40 @@
 import { input, testInput1, testInput2, testInput3 } from './input';
-import { amplifier, getPermutations, intcodeComputer } from './incodeComputer';
+import { getPermutations, intcodeComputer } from '../shared/intcodeComputer';
 import cloneDeep from 'lodash/cloneDeep';
 
 const permutations = getPermutations([0, 1, 2, 3, 4]);
 
-function run (input: Array<number>) {
-    return Math.max(
-        ...permutations.map((phases: Array<number>) => {
-            let output = 0;
-            phases.forEach((phaseSetting: number) => {
-                output = amplifier(cloneDeep(input), phaseSetting, output);
+async function run (input: Array<number>) {
+    const values = await Promise.all(permutations.map(async (phases: Array<number>) => {
+        let output = 0;
+        for (let i = 0; i < phases.length; i++) {
+            const phaseSetting = phases[i];
+            let usedFirstInput = false;
+            const intcode = await intcodeComputer(cloneDeep(input), () => {
+                if (!usedFirstInput) {
+                    usedFirstInput = true;
+                    return phaseSetting;
+                } else {
+                    // console.log(`output: ${output}`);
+                    return output;
+                }
             });
-            return output;
-        })
+            // console.log(intcode);
+            output = intcode[0];
+        }
+        return output;
+    }));
+    // console.log(values);
+    return Math.max(
+        ...values
     );
 }
 
-console.log(run(testInput1));
-console.log(run(testInput2));
-console.log(run(testInput3));
-console.log(run(input));
+async function test() {
+    // console.log(await run(testInput1));
+    // console.log(await run(testInput2));
+    // console.log(await run(testInput3));
+    console.log(await run(input));
+}
+
+test();
