@@ -70,8 +70,9 @@ function simulateGravityAndVelocity (input: Array<{x: number, y: number, z: numb
     }
 }
 
-console.log(simulateGravityAndVelocity(testInput, 10));
+// console.log(simulateGravityAndVelocity(testInput, 10));
+console.log(simulateGravityAndVelocity(testInput, 13104));
 
-console.log(simulateGravityAndVelocity(testInput2, 100));
+// console.log(simulateGravityAndVelocity(testInput2, 100));
 
-console.log(simulateGravityAndVelocity(input, 1000));
+// console.log(simulateGravityAndVelocity(input, 1000));

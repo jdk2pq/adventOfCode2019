@@ -12,6 +12,7 @@
   "private": true,
   "dependencies": {
     "lodash": "^4.17.15",
+    "mathjs": "^6.2.5",
     "moment": "^2.24.0"
   },
   "devDependencies": {

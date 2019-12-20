@@ -1,4 +1,4 @@
-export async function intcodeComputer (program: Array<number>, input: () => number, output: Array<number> = [], amp: number = 0): Promise<Array<number>> {
+export async function intcodeComputer (program: Array<number>, input: () => number, output: (Array<number> | Function) = [], amp: number = 0): Promise<Array<number>> {
     const ret = [];
     console.log(`running ${amp}`);
     let relativeBase = 0;
@@ -55,7 +55,11 @@ export async function intcodeComputer (program: Array<number>, input: () => numb
         } else if (opCode === 4) { // OUTPUT
             // console.log(param1Mode === 0 ? arr[arr[i + 1]] : arr[i + 1]);
             ret.push(param1);
-            output.push(param1);
+            if (output instanceof Array && output.length) {
+                (output as Array<number>).push(param1);
+            } else {
+                (output as (o) => void)(param1);
+            }
             i += 2;
         } else if (opCode === 5) { // NONZERO JUMP
             if (param1 !== 0) {
